@@ -1,44 +1,49 @@
 
 #!/bin/bash
-
+source controlPrime.sh
 echo "Lutfen bir sayi giriniz(Max: 4.100.200.300):"
-read number
+read userNumber
  
 
-eraseDot(){
-    ((userNumber=${userNumber//.}))
-    echo $userNumber
-}
 
-addDot(){
-    if [ ${#number} -gt 3 ];then
-        ((kalan=${#number}%3))
-        ((dotcount=number/3))
-        newnumber=""
-        dot="."
-        if [ $kalan -ne 0 ];then
-                for (( i =0 ; i <$kalan; i++ )); do
-                        newnumber="${newnumber}${number:$i:1}"
-                        
-                done 
-                number=${number:$kalan:(${#number}-$kalan)}
-                newnumber="${newnumber}${dot}" 
-        fi
-        for (( i =1 ; i <${#number}+1; i++ )); do
-                ((moddot=i%3))
-                if [ $moddot -eq 0 ];then
-                        newnumber="${newnumber}${number:$i-1:1}"
-                        newnumber="${newnumber}${dot}"
-                        
-                else
-                        newnumber="${newnumber}${number:$i-1:1}"
-                fi
-
-        done
-        newnumber=${newnumber:0:${#newnumber}-1}
-        return $newnumber
+sortedNumbers=()
+fibo=()
+((number=0))
+((count=1))
+((first=0))
+((second=1))
+sortedNumbers+=("F(0):1(Asal)")
+while [ $number -le $userNumber ]
+do  
+    ((number=first+second))
+    ((first=second))
+    ((second=number))
+    
+    divisibilityRulesControl
+    returnController=$?
+    if [ $returnController -eq 0 ];then
+        fibo+=($number)
+    else
+        sortedNumbers+=("F($count):$newnumber")
+        #echo "F($count):$number"
     fi
-}
+    ((count+=1))
+done
 
 
-addDot
+for (( i = ${#fibo[@]}-1; i >= 0; i-- )); do
+    echo ${fibo[i]}
+done 
+
+echo ${fibo[${#fibo[@]}-1]}
+
+for (( i = 25; i < ${fibo[${#fibo[@]}-1]}/2; i++ )); do
+        for (( j = ${#fibo[@]}-1; j >= 0; j-- )); do
+                ((modResult=number%i))
+                if [ $modResult -eq 0 ];then
+                ((isPrime=1))
+                echo $number
+                break
+                fi
+        done    
+done 

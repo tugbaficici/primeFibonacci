@@ -1,55 +1,54 @@
+# Bu dosyada bölünmme kurallarının işlenmesi ve gerekirse asal sayı kontrolü yapılması için fonksiyonlar oluşturulmuştur.
+
+# Bölünme kurallarının olduğu dosya eklenmiştir.
 source divisibilityRules.sh
 
+# Bölünme kurallarının kontrolü için değişken tanımlanmıştır.
+# Kontrollerden dönen değerler ile controller değişkeni OR'lanarak herhangi bir kuraldan 1 gelmesi durumu kontrol edilmektedir.
 declare -i controller
 controller=0
 
-#Bölünme kurallarının kontrol edilmesi
+# Bölünme kurallarının tek tek çağırılarak işlenmesi sağlanmaktadır. İşlenen değişken globaldir.
 divisibilityRulesControl(){
     ((controller=0))
-    divideTwo
-    returnValue=$?
-    ((controller=controller || returnValue))
-    divideThree
-    returnValue=$?
-    ((controller=controller || returnValue))
-    divideFive
-    returnValue=$?
-    ((controller=controller || returnValue))
-    divideSeven
-    returnValue=$?
-    ((controller=controller || returnValue))
-    if [ ${#number} -ne 1 ];then
-        divideEleven
-        returnValue=$?
-        ((controller=controller || returnValue))
-        divideThirteen
-        returnValue=$?
-        ((controller=controller || returnValue))
-        divideSeventeen
-        returnValue=$?
-        ((controller=controller || returnValue))
-        divideNineteen
-        returnValue=$?
-        ((controller=controller || returnValue))
-        divideTwentyThree
-        returnValue=$?
-        ((controller=controller || returnValue))
+    divideTwo                                       # 2'ye Bölünme Kuralı
+    returnValue=$?                                  # Dönen değer
+    ((controller=controller || returnValue))        # OR işlemi
+    divideThree                                     # 3'ye Bölünme Kuralı                                 
+    returnValue=$?                                  # Dönen değer
+    ((controller=controller || returnValue))        # OR işlemi
+    divideFive                                      # 5'ye Bölünme Kuralı
+    returnValue=$?                                  # Dönen değer
+    ((controller=controller || returnValue))        # OR işlemi
+    divideSeven                                     # 7'ye Bölünme Kuralı
+    returnValue=$?                                  # Dönen değer
+    ((controller=controller || returnValue))        # OR işlemi
+    if [ ${#number} -ne 1 ];then                    # Tek rakamlı sayıların if içinde bulunan kontrollere girmesi engellenmiştir.
+        divideEleven                                # 11'ye Bölünme Kuralı
+        returnValue=$?                              # Dönen değer
+        ((controller=controller || returnValue))    # OR işlemi
+        divideThirteen                              # 13'ye Bölünme Kuralı
+        returnValue=$?                              # Dönen değer
+        ((controller=controller || returnValue))    # OR işlemi
+        divideSeventeen                             # 17'ye Bölünme Kuralı
+        returnValue=$?                              # Dönen değer
+        ((controller=controller || returnValue))    # OR işlemi
+        divideNineteen                              # 19'ye Bölünme Kuralı
+        returnValue=$?                              # Dönen değer
+        ((controller=controller || returnValue))    # OR işlemi
+        divideTwentyThree                           # 23'ye Bölünme Kuralı
+        returnValue=$?                              # Dönen değer
+        ((controller=controller || returnValue))    # OR işlemi
     fi
 
-    return $controller
-    #0 sa bölünme olmamış
-    #1 se en az birine bölünmüş
+    return $controller                              # Fonksiyon controller değişkenini geri döndürür.
+                                                    # Değişken değeri 0 ise verilen kurallara bölünmemiştir.
+                                                    # Değişken değeri 1 ise en az bir kurala bölünmüştür.
 }
 
 
+# Eğer kurallara uymuyorsa değişken genel asallık kontrolüne girer.
 generalPrimeControl(){
-    if [ $number -eq 2 ] || [ $number -eq 3 ]; then
-        return 1 
-    fi
-    if [ $(($number % 2)) -eq 0 ] || [ $(($number % 3)) -eq 0 ]; then
-        return 0 
-    fi
-
     a=5 
     b=2
 
@@ -63,5 +62,6 @@ generalPrimeControl(){
         b=$((6 - b))
     done
     return 1
+
 }
 
