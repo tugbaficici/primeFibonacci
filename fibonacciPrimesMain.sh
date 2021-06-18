@@ -2,7 +2,7 @@
 # 30116005 - Tuğba FIÇICI
 # Yazılan kod "bash" kabuğunda derlenip kullanılmıştır.
 
-# Kullanılan fonksiyonlara göre fonsiyon dosyaları eklenmiştir.
+# Kullanılan fonksiyonlara göre fonksiyon dosyaları eklenmiştir.
 source controlPrime.sh
 source dotFunction.sh
 
