@@ -48,20 +48,22 @@ divisibilityRulesControl(){
 
 
 # Eğer kurallara uymuyorsa değişken genel asallık kontrolüne girer.
+# Genel asallık kontrolü için ilk olarak geleneksel yöntem denenmiştir. 
+# Geleneksel yöntem 7 basamak sayıdan sonrası için çok fazla zaman harcıyordu ve bitmesini beklemek dakikalarca sürüyordu.
+# Bu problemi ortadan kaldırmak için araştırma yapıldığında birden fazla farklı yöntem ve teoriler vardı.
+# Shell programlama için en uygun adapte edilen yöntem 6k+1 yöntemi olduğu için bu yöntem seçilmiştir.
 generalPrimeControl(){
-    a=5 
-    b=2
-
-    while [ $((a * a)) -le $number ]; 
-    do
-        if [ $(($number % a)) -eq 0 ]; 
-        then
+    # Döngü içerisinde ilk olarak 5 sayısından başlanarak sayının bölümleri kontrol edilir.
+    # Bölen altışar artırılır ve bölen * bölen sınırına kadar kontrol edilir.
+    # Bu yöntemin ana noktası aslında küçük toplama çıkarma işlemi ile bütün sayıları elde etmemizdir.
+    # Bu şekilde sayının her bölen olma ihtimalini kontrol etmiş oluruz.
+    for (( i = 5 ; i * i <= number ; i += 6 )); do 
+        if [ $(($number % i)) -eq 0 -o $(($number % (i + 2))) -eq 0 ];then
             return 0 
         fi
-        a=$((a + b))
-        b=$((6 - b))
     done
-    return 1
-
+    return 1  
+    # Döngü bir bölen bulduğunda 0 değerini döndürür.
+    # Asallığı doğrulanmış sayı için ise 1 değerini döndürür.
 }
 
